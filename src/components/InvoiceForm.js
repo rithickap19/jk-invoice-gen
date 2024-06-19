@@ -200,13 +200,13 @@ class InvoiceForm extends React.Component {
                     Invoice&nbsp;Number:&nbsp;
                   </span>
                   <Form.Control
-                    type="number"
+                    type="text"
                     value={this.state.invoiceNumber}
                     name={"invoiceNumber"}
                     onChange={this.handleInputChange}
                     min="1"
                     style={{
-                      maxWidth: "70px",
+                      maxWidth: "120px",
                     }}
                     required="required"
                   />
