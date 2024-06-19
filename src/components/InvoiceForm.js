@@ -51,8 +51,29 @@ class InvoiceForm extends React.Component {
   }
   componentDidMount(prevProps) {
     this.handleCalculateTotal();
+    const lastInvoiceNumber = localStorage.getItem('lastInvoiceNumber');
+    if (lastInvoiceNumber) {
+      this.setState({ invoiceNumber: lastInvoiceNumber });
+    }
+    this.setState({ currentDate: this.getCurrentDate() });
+  }
+  getCurrentDate() {
+    // Function to get the current date in the desired format
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const yyyy = today.getFullYear();
+
+    return mm + '/' + dd + '/' + yyyy;
   }
 
+  handleInputChange = (event) => {
+    // Update invoice number in both state and local storage
+    const { name, value } = event.target;
+    this.setState({ [name]: value }, () => {
+      localStorage.setItem('lastInvoiceNumber', this.state.invoiceNumber);
+    });
+  }
   handleRowDel(items) {
     var index = this.state.items.indexOf(items);
     this.state.items.splice(index, 1);
@@ -182,7 +203,7 @@ class InvoiceForm extends React.Component {
                     type="number"
                     value={this.state.invoiceNumber}
                     name={"invoiceNumber"}
-                    onChange={(event) => this.editField(event)}
+                    onChange={this.handleInputChange}
                     min="1"
                     style={{
                       maxWidth: "70px",
