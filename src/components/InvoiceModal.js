@@ -88,22 +88,34 @@ class InvoiceModal extends React.Component {
               <Table className="mb-0">
                 <thead>
                   <tr>
-                    <th>QTY</th>
-                    <th>DESCRIPTION</th>
-                    <th className="text-end">PRICE</th>
-                    <th className="text-end">AMOUNT</th>
+                    <th>S.No</th>
+                                        
+                    <th>Item</th>
+
+                    <th>HSN</th>
+
+                    <th>Quantity</th>
+
+                    <th> Rate</th>
+                    <th className="text-end">Total Amount</th>
                   </tr>
                 </thead>
                 <tbody>
                   {this.props.items.map((item, i) => {
                     return (
                       <tr id={i} key={i}>
-                        <td style={{ width: "70px" }}>{item.quantity}</td>
+                        <td style={{ width: "70px" }}>{i+1}</td>
                         <td>
-                          {item.name} - {item.description}
+                           {item.description}
                         </td>
-                        <td className="text-end" style={{ width: "100px" }}>
-                          {this.props.currency} {item.price}
+                        <td >
+                          {item.name} 
+                        </td>
+                        <td style={{ width: "-20px" }}>
+                           {item.quantity}
+                        </td>
+                        <td  style={{ width: "-10px" }}>
+                         {item.price}
                         </td>
                         <td className="text-end" style={{ width: "100px" }}>
                           {this.props.currency} {item.price * item.quantity}
