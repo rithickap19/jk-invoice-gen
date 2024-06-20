@@ -7,18 +7,19 @@ import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import { BiPaperPlane, BiCloudDownload } from "react-icons/bi";
 import html2pdf from "html2pdf.js";
-
+const bankName=process.env.BANK_NAME
 class InvoiceModal extends React.Component {
   constructor(props) {
     super(props);
   }
 
   generatePDF = () => {
+    const lastInvoiceNumber = localStorage.getItem('lastInvoiceNumber');
     const element = document.getElementById("invoiceCapture");
     html2pdf(element, {
-      margin: 0.5,
-      filename: "invoice-001.pdf",
-      image: { type: "jpeg", quality: 0.98 },
+      margin: 0.1,
+      filename: `${lastInvoiceNumber}_invoice`,
+      image: { type: "jpeg", quality: 100 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     });

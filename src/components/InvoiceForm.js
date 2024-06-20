@@ -8,6 +8,7 @@ import Card from "react-bootstrap/Card";
 import InvoiceItem from "./InvoiceItem";
 import InvoiceModal from "./InvoiceModal";
 import InputGroup from "react-bootstrap/InputGroup";
+// import DatePicker from "react-datepicker";
 
 class InvoiceForm extends React.Component {
   constructor(props) {
@@ -31,19 +32,19 @@ class InvoiceForm extends React.Component {
       billFromPhone: "9043974790",
 
       notes: "",
-      total: "0.00",
-      subTotal: "0.00",
+      total: "0",
+      subTotal: "0",
       taxRate: "",
-      taxAmmount: "0.00",
+      taxAmmount: "0",
       discountRate: "",
-      discountAmmount: "0.00",
+      discountAmmount: "0",
     };
     this.state.items = [
       {
         id: 0,
         name: "",
         description: "",
-        price: "1.00",
+        price: "1",
         quantity: 0,
       },
     ];
@@ -64,7 +65,7 @@ class InvoiceForm extends React.Component {
     const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
     const yyyy = today.getFullYear();
 
-    return mm + '/' + dd + '/' + yyyy;
+    return dd + '/' + mm + '/' + yyyy;
   }
 
   handleInputChange = (event) => {
@@ -85,7 +86,7 @@ class InvoiceForm extends React.Component {
     var items = {
       id: id,
       name: "",
-      price: "1.00",
+      price: "1",
       description: "",
       quantity: 0,
     };
@@ -177,7 +178,7 @@ class InvoiceForm extends React.Component {
                     <div class="mb-2">
                       <span className="fw-bold">Current&nbsp;Date:&nbsp;</span>
                       <span className="current-date">
-                        {new Date().toLocaleDateString()}
+                        {this.getCurrentDate()}
                       </span>
                     </div>
                   </div>
