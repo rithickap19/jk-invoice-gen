@@ -7,7 +7,9 @@ import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import { BiPaperPlane, BiCloudDownload } from "react-icons/bi";
 import html2pdf from "html2pdf.js";
+import NumberToWordsIndian from './NumberToWordsIndian';
 const bankName=process.env.BANK_NAME
+
 class InvoiceModal extends React.Component {
   constructor(props) {
     super(props);
@@ -126,12 +128,14 @@ class InvoiceModal extends React.Component {
                   })}
                 </tbody>
               </Table>
+              
               <Table>
                 <tbody>
                   <tr>
                     <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    {/* <td>&nbsp;</td> */}
+                    {/* <td>&nbsp;</td> */}
+                    
                   </tr>
                   <tr className="text-end">
                     <td></td>
@@ -146,41 +150,72 @@ class InvoiceModal extends React.Component {
                   {this.props.taxAmmount !== 0.0 && (
                     <tr className="text-end">
                       <td></td>
-                      <td className="fw-bold" style={{ width: "100px" }}>
-                        TAX(
-                        {Math.round(
-                          (this.props.taxAmmount /
-                            (this.props.subTotal - this.props.taxAmmount)) *
-                            100
-                        )}
-                        %)
+                      <td className="fw-bold" style={{ width: "100px" }}hidden={this.props.info.taxType==="gst"}>
+                        IGST({this.props.info.taxRate}%)
+                       
                       </td>
-                      <td className="text-end" style={{ width: "100px" }}>
+                      <td className="text-end" style={{ width: "100px" }} hidden={this.props.info.taxType==="gst"}>
                         {this.props.currency} {this.props.taxAmmount}
                       </td>
+                      <td className="fw-bold" style={{ width: "100px" }} hidden={this.props.info.taxType==="igst"}>
+                        CGST({this.props.info.taxRate/2}                      
+                        %)
+                      </td>
+                      <td className="text-end" style={{ width: "100px" }} hidden={this.props.info.taxType==="igst"}>
+                        {this.props.currency} {this.props.taxAmmount/2}
+                      </td>
+                      
+                    </tr>
+                  )}
+                  
+                  {this.props.taxAmmount !== 0.0 && (
+                    <tr className="text-end">
+                      <td></td>
+                      <td className="fw-bold" style={{ width: "100px" }} hidden={this.props.info.taxType==="igst"}>
+                        SGST({this.props.info.taxRate/2}                      
+                        %)
+                      </td>
+                      <td className="text-end" style={{ width: "100px" }} hidden={this.props.info.taxType==="igst"}>
+                        {this.props.currency} {this.props.taxAmmount/2}
+                      </td>
+                      
                     </tr>
                   )}
                   <tr className="text-end">
+                  <tr>
                     <td></td>
+                    <td className="fw-bold" style={{ width: "90px" }}>
+                      QUANTITY
+                    </td>
+                    
+                    <td  style={{ width: "50px" }}>
+                      {this.props.items
+                        .map((item) => parseInt(item.quantity))
+                        .reduce((acc, curr) => acc + curr, 0)}
+                    </td>
+                  </tr>
                     <td className="fw-bold" style={{ width: "100px" }}>
                       TOTAL
                     </td>
                     <td className="text-end" style={{ width: "100px" }}>
                       {this.props.currency} {this.props.total}
                     </td>
+                    
                   </tr>
-                  <tr className="text-end">
-                    <td></td>
-                    <td className="fw-bold" style={{ width: "100px" }}>
-                      QUANTITY
-                    </td>
 
-                    <td className="text-end" style={{ width: "100px" }}>
-                      {this.props.items
-                        .map((item) => parseInt(item.quantity))
-                        .reduce((acc, curr) => acc + curr, 0)}
+
+<tr className="text-end">
+                  
+                    <td className="" >
+                    <b> TOTAL IN WORDS:</b>
+                   <NumberToWordsIndian number={this.props.total}/> 
+                   
                     </td>
+                    
                   </tr>
+                 
+                
+                  
                 </tbody>
               </Table>
               {this.props.info.notes && (

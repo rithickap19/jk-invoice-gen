@@ -38,6 +38,9 @@ class InvoiceForm extends React.Component {
       taxAmmount: "0",
       discountRate: "",
       discountAmmount: "0",
+      igstRate:"",
+      igstAmmount:0,
+      taxType:"gst"
     };
     this.state.items = [
       {
@@ -160,6 +163,9 @@ class InvoiceForm extends React.Component {
   onCurrencyChange = (selectedOption) => {
     this.setState(selectedOption);
   };
+  onTaxChange = (selectedOption) => {
+    this.setState(selectedOption);
+  };
   openModal = (event) => {
     event.preventDefault();
     this.handleCalculateTotal();
@@ -192,7 +198,7 @@ class InvoiceForm extends React.Component {
                       style={{
                         maxWidth: "150px",
                       }}
-                      required="required"
+                      
                     />
                   </div>
                 </div>
@@ -209,7 +215,7 @@ class InvoiceForm extends React.Component {
                     style={{
                       maxWidth: "120px",
                     }}
-                    required="required"
+                    
                   />
                 </div>
               </div>
@@ -226,7 +232,7 @@ class InvoiceForm extends React.Component {
                     className="my-2"
                     onChange={(event) => this.editField(event)}
                     autoComplete="name"
-                    required="required"
+                    
                   />
                   <Form.Control
                     placeholder={"Email address"}
@@ -236,7 +242,7 @@ class InvoiceForm extends React.Component {
                     className="my-2"
                     onChange={(event) => this.editField(event)}
                     autoComplete="email"
-                    required="required"
+                    
                   />
                   <Form.Control
                     placeholder={"GST"}
@@ -245,7 +251,7 @@ class InvoiceForm extends React.Component {
                     name="billToGst"
                     className="my-2"
                     onChange={(event) => this.editField(event)}
-                    required="required"
+                    
                   />
                   <Form.Control
                     placeholder={"Billing address"}
@@ -255,7 +261,7 @@ class InvoiceForm extends React.Component {
                     className="my-2"
                     autoComplete="address"
                     onChange={(event) => this.editField(event)}
-                    required="required"
+                    
                   />
                   <Form.Control
                     placeholder={"Phone"}
@@ -264,7 +270,7 @@ class InvoiceForm extends React.Component {
                     name="billToPhone"
                     className="my-2"
                     onChange={(event) => this.editField(event)}
-                    required="required"
+                    
                   />
                 </Col>
                 <Col>
@@ -278,7 +284,7 @@ class InvoiceForm extends React.Component {
                     className="my-2"
                     onChange={(event) => this.editField(event)}
                     autoComplete="name"
-                    required="required"
+                    
                   />
                   <Form.Control
                     placeholder={"Email address"}
@@ -288,7 +294,7 @@ class InvoiceForm extends React.Component {
                     className="my-2"
                     onChange={(event) => this.editField(event)}
                     autoComplete="email"
-                    required="required"
+                    
                   />
                   <Form.Control
                     placeholder={"GST"}
@@ -297,7 +303,7 @@ class InvoiceForm extends React.Component {
                     name="billFromGst"
                     className="my-2"
                     onChange={(event) => this.editField(event)}
-                    required="required"
+                    
                   />
                   <Form.Control
                     placeholder={"Billing address"}
@@ -307,7 +313,7 @@ class InvoiceForm extends React.Component {
                     className="my-2"
                     autoComplete="address"
                     onChange={(event) => this.editField(event)}
-                    required="required"
+                    
                   />
                   <Form.Control
                     placeholder={"Phone"}
@@ -316,7 +322,7 @@ class InvoiceForm extends React.Component {
                     name="billFromPhone"
                     className="my-2"
                     onChange={(event) => this.editField(event)}
-                    required="required"
+                    
                   />
                 </Col>
               </Row>
@@ -415,6 +421,20 @@ class InvoiceForm extends React.Component {
                   <option value="₹">INR</option>
                 </Form.Select>
               </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label className="fw-bold">Tax Type</Form.Label>
+                <Form.Select
+                  onChange={(event) =>
+                    this.onTaxChange({ taxType: event.target.value })
+                  }
+                  className="btn btn-light my-1"
+                  aria-label="Change"
+                >
+                  <option value="igst">IGST</option>
+                  <option value="gst">GST</option>
+                  
+                </Form.Select>
+              </Form.Group>
               <Form.Group className="my-3">
                 <Form.Label className="fw-bold">Tax rate:</Form.Label>
                 <InputGroup className="my-1 flex-nowrap">
@@ -438,6 +458,7 @@ class InvoiceForm extends React.Component {
                 <Form.Label className="fw-bold">SGSTrate:</Form.Label>
                 <InputGroup className="my-1 flex-nowrap">
                   <Form.Control
+                    hidden={this.state.taxType==="igst"}
                     name="taxRate"
                     type="number"
                     value={this.state.taxRate / 2}
@@ -457,6 +478,7 @@ class InvoiceForm extends React.Component {
                 <Form.Label className="fw-bold">CGSTrate:</Form.Label>
                 <InputGroup className="my-1 flex-nowrap">
                   <Form.Control
+                    hidden={this.state.taxType==="igst"}
                     name="taxRate"
                     type="number"
                     value={this.state.taxRate / 2}
