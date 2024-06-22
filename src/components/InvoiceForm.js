@@ -24,13 +24,15 @@ class InvoiceForm extends React.Component {
       billToAddress: "",
       billToGst: "",
       billToPhone: "",
+      billToState: "",
+      billToStateCode: 0,
       billFrom: "JK Traders",
       billFromEmail: "jktraders17@gmail.com",
       billFromAddress:
         "1/322 A , Anna Street, Shakthi Nagar, Arni, T.V.Malai Dst-632301",
-      billFromGst: "",
+      billFromGst: "33AKCPJ2902N1ZC",
       billFromPhone: "9043974790",
-
+      pan:"AKCPJ2902N",
       notes: "",
       total: "0",
       subTotal: "0",
@@ -40,7 +42,9 @@ class InvoiceForm extends React.Component {
       discountAmmount: "0",
       igstRate:"",
       igstAmmount:0,
-      taxType:"gst"
+      taxType:"gst",
+      courrierAmount:"",
+      eway:""
     };
     this.state.items = [
       {
@@ -218,6 +222,21 @@ class InvoiceForm extends React.Component {
                     
                   />
                 </div>
+                <div className="d-flex flex-row align-items-center">
+                  <span className="fw-bold me-2">
+                    Eway&nbsp;:&nbsp;
+                  </span>
+                  <Form.Control
+                    type="text"
+                    value={this.state.eway}
+                    name={"eway"}
+                    onChange={this.handleInputChange}
+                    style={{
+                      maxWidth: "120px",
+                    }}
+                    
+                  />
+                </div>
               </div>
               <hr className="my-4" />
               <Row className="mb-5">
@@ -272,6 +291,24 @@ class InvoiceForm extends React.Component {
                     onChange={(event) => this.editField(event)}
                     
                   />
+                  <Form.Control
+                    placeholder={"State Name"}
+                    value={this.state.billToState}
+                    type="text"
+                    name="billToState"
+                    className="my-2"
+                    onChange={(event) => this.editField(event)}
+                    
+                  />
+                  <Form.Control
+                    placeholder={"State Code"}
+                    value={this.state.billToStateCode}
+                    type="text"
+                    name="billToStateCode"
+                    className="my-2"
+                    onChange={(event) => this.editField(event)}
+                    
+                  />
                 </Col>
                 <Col>
                   <Form.Label className="fw-bold">Bill from:</Form.Label>
@@ -320,6 +357,24 @@ class InvoiceForm extends React.Component {
                     value={this.state.billFromPhone}
                     type="phone"
                     name="billFromPhone"
+                    className="my-2"
+                    onChange={(event) => this.editField(event)}
+                    
+                  />
+                  <Form.Control
+                    placeholder={"State Name"}
+                    value={""}
+                    type="text"
+                    name="billToState"
+                    className="my-2"
+                    onChange={(event) => this.editField(event)}
+                    
+                  />
+                  <Form.Control
+                    placeholder={"State Code"}
+                    value={""}
+                    type="number"
+                    name="billToSateCode"
                     className="my-2"
                     onChange={(event) => this.editField(event)}
                     
@@ -410,16 +465,23 @@ class InvoiceForm extends React.Component {
                 total={this.state.total}
               />
               <Form.Group className="mb-3">
-                <Form.Label className="fw-bold">Currency:</Form.Label>
-                <Form.Select
-                  onChange={(event) =>
-                    this.onCurrencyChange({ currency: event.target.value })
-                  }
-                  className="btn btn-light my-1"
-                  aria-label="Change Currency"
-                >
-                  <option value="₹">INR</option>
-                </Form.Select>
+                <Form.Label className="fw-bold">Courrier Charges:</Form.Label>
+                <InputGroup className="my-1 flex-nowrap">
+                  <Form.Control
+                    name="courrierAmount"
+                    type="text"
+                    value={this.state.courrierAmount}
+                    onChange={(event) => this.editField(event)}
+                    className="bg-white border"
+                    placeholder="0.0"
+                    min="0.00"
+                    max="1000000.00"
+                  />
+                  <InputGroup.Text className="bg-light fw-bold text-secondary small">
+                    %
+                  </InputGroup.Text>
+                </InputGroup>
+                
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label className="fw-bold">Tax Type</Form.Label>
@@ -429,9 +491,9 @@ class InvoiceForm extends React.Component {
                   }
                   className="btn btn-light my-1"
                   aria-label="Change"
-                >
+                ><option value="gst">GST</option>
                   <option value="igst">IGST</option>
-                  <option value="gst">GST</option>
+                  
                   
                 </Form.Select>
               </Form.Group>

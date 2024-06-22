@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NumberToWordsIndian = ({ number }) => {
+const NumberToWordsIndian = ({ number, suffix = '' }) => {
   const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
   const teens = ['', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
   const tens = ['', 'Ten', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
@@ -9,6 +9,11 @@ const NumberToWordsIndian = ({ number }) => {
     if (num === 0) return 'Zero';
 
     let words = '';
+
+    if (num >= 100000) {
+      words += ones[Math.floor(num / 100000)] + ' Lakh ';
+      num %= 10000;
+    }
 
     if (num >= 1000) {
       words += ones[Math.floor(num / 1000)] + ' Thousand ';
@@ -37,11 +42,7 @@ const NumberToWordsIndian = ({ number }) => {
 
   const words = convertNumberToWords(number);
 
-  return (
-    <div>
-      <p>{words}</p>
-    </div>
-  );
+  return <>{words} {suffix}</>;
 };
 
 export default NumberToWordsIndian;
