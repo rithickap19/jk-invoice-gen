@@ -25,13 +25,15 @@ class InvoiceForm extends React.Component {
       billToGst: "",
       billToPhone: "",
       billToState: "",
-      billToStateCode: 0,
+      billToStateCode: "",
       billFrom: "JK Traders",
       billFromEmail: "jktraders17@gmail.com",
       billFromAddress:
         "1/322 A , Anna Street, Shakthi Nagar, Arni, T.V.Malai Dst-632301",
       billFromGst: "33AKCPJ2902N1ZC",
       billFromPhone: "9043974790",
+      billFromState: "Tamil Nadu",
+      billFromStateCode: 33,
       pan:"AKCPJ2902N",
       notes: "",
       total: "0",
@@ -51,8 +53,8 @@ class InvoiceForm extends React.Component {
         id: 0,
         name: "",
         description: "",
-        price: "1",
-        quantity: 0,
+        price: "",
+        quantity: "",
       },
     ];
     this.editField = this.editField.bind(this);
@@ -105,17 +107,17 @@ class InvoiceForm extends React.Component {
     let subTotal = 0;
 
     items.forEach((item) => {
-      subTotal += parseFloat(item.price) * parseInt(item.quantity);
+      subTotal += parseFloat(item.price || 0) * parseInt(item.quantity || 0);
     });
     this.setState(
       {
-        subTotal: parseFloat(subTotal).toFixed(2),
+        subTotal: parseFloat(subTotal || 0).toFixed(2) 
       },
       () => {
         this.setState(
           {
             taxAmmount: parseFloat(
-              parseFloat(subTotal) * (this.state.taxRate / 100)
+              parseFloat(subTotal|| 0) * (this.state.taxRate / 100)
             ).toFixed(2),
           },
           () => {
@@ -127,8 +129,8 @@ class InvoiceForm extends React.Component {
               },
               () => {
                 this.setState({
-                  total:
-                    subTotal -
+                  total:parseInt(this.state.courrierAmount || 0)+
+                    subTotal-
                     this.state.discountAmmount +
                     parseFloat(this.state.taxAmmount),
                 });
@@ -363,18 +365,18 @@ class InvoiceForm extends React.Component {
                   />
                   <Form.Control
                     placeholder={"State Name"}
-                    value={""}
+                    value={this.state.billFromState}
                     type="text"
-                    name="billToState"
+                    name="billFromState"
                     className="my-2"
                     onChange={(event) => this.editField(event)}
                     
                   />
                   <Form.Control
                     placeholder={"State Code"}
-                    value={""}
+                    value={this.state.billFromStateCode}
                     type="number"
-                    name="billToSateCode"
+                    name="billFromStateCode"
                     className="my-2"
                     onChange={(event) => this.editField(event)}
                     
@@ -469,7 +471,7 @@ class InvoiceForm extends React.Component {
                 <InputGroup className="my-1 flex-nowrap">
                   <Form.Control
                     name="courrierAmount"
-                    type="text"
+                    type="number"
                     value={this.state.courrierAmount}
                     onChange={(event) => this.editField(event)}
                     className="bg-white border"
@@ -477,9 +479,7 @@ class InvoiceForm extends React.Component {
                     min="0.00"
                     max="1000000.00"
                   />
-                  <InputGroup.Text className="bg-light fw-bold text-secondary small">
-                    %
-                  </InputGroup.Text>
+                  
                 </InputGroup>
                 
               </Form.Group>

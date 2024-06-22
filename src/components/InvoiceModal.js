@@ -200,7 +200,7 @@ class InvoiceModal extends React.Component {
      </div>
 
   <div style={{ marginTop: "0px" }}>
-    <div style={{ fontWeight: "bold" }}>TOTAL IN WORDS: {toWords.convert(this.props.total)} Rupees Only</div>
+    <div style={{ fontWeight: "bold" }}>TOTAL IN WORDS: {toWords.convert(this.props.total || 0) } Rupees Only</div>
     
   </div>
 </div>
