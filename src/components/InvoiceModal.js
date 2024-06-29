@@ -7,18 +7,18 @@ import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import { BiPaperPlane, BiCloudDownload, BiFontSize } from "react-icons/bi";
 import html2pdf from "html2pdf.js";
-import NumberToWordsIndian from './NumberToWordsIndian';
-import { ToWords } from 'to-words';
+import NumberToWordsIndian from "./NumberToWordsIndian";
+import { ToWords } from "to-words";
 const toWords = new ToWords();
-const bankName=process.env.BANK_NAME
+const bankName = process.env.BANK_NAME;
 function formatIndianNumber(num) {
   // Convert number to string
   let numStr = num.toString();
 
   // Split the number into integer and decimal parts
-  let parts = numStr.split('.');
+  let parts = numStr.split(".");
   let integerPart = parts[0];
-  let decimalPart = parts.length > 1 ? '.' + parts[1] : '';
+  let decimalPart = parts.length > 1 ? "." + parts[1] : "";
 
   // Regex to match groups of three digits
   let regex = /(\d+?)(?=(\d{2})+(\d)(?!\d))/g;
@@ -36,7 +36,7 @@ class InvoiceModal extends React.Component {
   }
 
   generatePDF = () => {
-    const lastInvoiceNumber = localStorage.getItem('lastInvoiceNumber');
+    const lastInvoiceNumber = localStorage.getItem("lastInvoiceNumber");
     const element = document.getElementById("invoiceCapture");
     html2pdf(element, {
       margin: 0.1,
@@ -46,7 +46,9 @@ class InvoiceModal extends React.Component {
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     });
   };
+
   render() {
+    // const { formatDate } = this.state.info.dateOfIssue;
     return (
       <div>
         <Modal
@@ -55,10 +57,10 @@ class InvoiceModal extends React.Component {
           size="lg"
           centered
         >
-          <div id="invoiceCapture" >
+          <div id="invoiceCapture">
             <div className="d-flex flex-row justify-content-between align-items-start bg-light w-100 p-4">
-              <div className="w-100" style={{color:"black"}}>
-                <h4 className="fw-bold my-2" >{this.props.info.billFrom}</h4>
+              <div className="w-100" style={{ color: "black" }}>
+                <h4 className="fw-bold my-2">{this.props.info.billFrom}</h4>
 
                 <h5 className="fw-bold my-2">
                   {this.props.info.billFromAddress}
@@ -71,17 +73,23 @@ class InvoiceModal extends React.Component {
                   Invoice #: {this.props.info.invoiceNumber || ""}
                 </h5>
                 <Col md={4}>
-                  <div className="fw-bold mt-2">Date Of Issue:</div>
+                  <div className="fw-bold mt-2">Due Date:</div>
                   <div>{this.props.info.dateOfIssue || ""}</div>
                 </Col>
+                <Col md={4}>
+                  <div className="fw-bold mt-2">Date Of Issue:</div>
+                  <div>{this.props.info.currentdate || ""}</div>
+                </Col>
                 <div className="fw-bold mt-2">
-                  Eway: {this.props.info.eway|| ""}
+                  Eway: {this.props.info.eway || ""}
                 </div>
-                
               </div>
               <div className="text-end ms-4">
                 <h6 className="fw-bold mt-1 mb-2">Amount&nbsp;Due:</h6>
-                <h5 className="fw-bold text-secondary" style={{width:"100px",color:"red !important"}}>
+                <h5
+                  className="fw-bold text-secondary"
+                  style={{ width: "100px", color: "red !important" }}
+                >
                   {/* {" "} */}
                   {this.props.currency} {formatIndianNumber(this.props.total)}
                 </h5>
@@ -96,7 +104,10 @@ class InvoiceModal extends React.Component {
                   <div>{this.props.info.billToEmail || ""}</div>
                   <div>{this.props.info.billToPhone || ""}</div>
                   <div>{this.props.info.billToGst || ""}</div>
-                  <div>{this.props.info.billToState || ""}- {this.props.info.billToStateCode || ""}</div>
+                  <div>
+                    {this.props.info.billToState || ""}-{" "}
+                    {this.props.info.billToStateCode || ""}
+                  </div>
                 </Col>
                 <Col md={4}>
                   <div className="fw-bold">Billed From:</div>
@@ -119,7 +130,7 @@ class InvoiceModal extends React.Component {
                 <thead>
                   <tr>
                     <th>S.No</th>
-                                        
+
                     <th>Item</th>
 
                     <th>HSN</th>
@@ -134,19 +145,11 @@ class InvoiceModal extends React.Component {
                   {this.props.items.map((item, i) => {
                     return (
                       <tr id={i} key={i}>
-                        <td style={{ width: "70px" }}>{i+1}</td>
-                        <td>
-                           {item.description}
-                        </td>
-                        <td >
-                          {item.name} 
-                        </td>
-                        <td style={{ width: "-20px" }}>
-                           {item.quantity}
-                        </td>
-                        <td  style={{ width: "-10px" }}>
-                         {item.price}
-                        </td>
+                        <td style={{ width: "70px" }}>{i + 1}</td>
+                        <td>{item.description}</td>
+                        <td>{item.name}</td>
+                        <td style={{ width: "-20px" }}>{item.quantity}</td>
+                        <td style={{ width: "-10px" }}>{item.price}</td>
                         <td className="text-end" style={{ width: "100px" }}>
                           {this.props.currency} {item.price * item.quantity}
                         </td>
@@ -155,58 +158,98 @@ class InvoiceModal extends React.Component {
                   })}
                 </tbody>
               </Table>
-              
-              <div style={{ marginTop: "10%", border: "1px solid #ccc", padding: "20px", borderRadius: "8px", boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}>
-  <div style={{ marginBottom: "5px" }}>
-    <div style={{ fontWeight: "bold",textAlign: "right" }}>SUBTOTAL:  {this.props.currency} {this.props.subTotal}</div>
-    <div style={{  }}>
-     
-    </div>
-  </div>
 
-  {this.props.taxAmmount !== 0.0 && (
-    <div style={{ marginBottom: "5px" }}>
-      {this.props.info.taxType === "gst" ? (
-        <React.Fragment>
-          <div style={{ fontWeight: "bold",textAlign: "right" }}>IGST({this.props.info.taxRate}%) : {this.props.currency} {this.props.taxAmmount}</div>
-          <div style={{  }}>
-            
-          </div>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <div style={{ fontWeight: "bold" ,textAlign: "right"}}>CGST({this.props.info.taxRate / 2}%) : {this.props.currency} {this.props.taxAmmount / 2}</div>
-          <div style={{ textAlign: "right" }}>
-           
-          </div>
-          <div style={{ fontWeight: "bold",textAlign: "right" }}>SGST({this.props.info.taxRate / 2}%) :   {this.props.currency} {this.props.taxAmmount / 2}</div>
-          <div style={{ textAlign: "right" }}>
-          
-          </div>
-        </React.Fragment>
-      )}
-    </div>
-  )}
-  
-  <div style={{ marginBottom: "5px" ,textAlign: "right"}}>
-    <div style={{ fontWeight: "bold" }}>TOTAL : {this.props.currency} {this.props.total}</div>
-    <div style={{  }}>
-     
-    </div>
-  </div>
+              <div
+                style={{
+                  marginTop: "10%",
+                  border: "1px solid #ccc",
+                  padding: "20px",
+                  borderRadius: "8px",
+                  boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <div style={{ marginBottom: "5px" }}>
+                  <div style={{ fontWeight: "bold", textAlign: "right" }}>
+                    SUBTOTAL: {this.props.currency} {this.props.subTotal}
+                  </div>
+                  <div style={{}}></div>
+                </div>
 
-  <div style={{ marginTop: "10px", borderTop: "1px solid #ccc", paddingTop: "5px" }}>
-    <div style={{ fontWeight: "bold" }}>QUANTITY : {this.props.items.map((item) => parseInt(item.quantity)).reduce((acc, curr) => acc + curr, 0)}</div>
-     </div>
+                {this.props.taxAmmount !== 0.0 && (
+                  <div style={{ marginBottom: "5px" }}>
+                    {this.props.info.taxType === "igst" ? (
+                      <React.Fragment>
+                        <div style={{ fontWeight: "bold", textAlign: "right" }}>
+                          IGST({this.props.info.taxRate}%) :{" "}
+                          {this.props.currency} {this.props.taxAmmount}
+                        </div>
+                        <div style={{}}></div>
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        <div style={{ fontWeight: "bold", textAlign: "right" }}>
+                          CGST({this.props.info.taxRate / 2}%) :{" "}
+                          {this.props.currency} {this.props.taxAmmount / 2}
+                        </div>
+                        <div style={{ textAlign: "right" }}></div>
+                        <div style={{ fontWeight: "bold", textAlign: "right" }}>
+                          SGST({this.props.info.taxRate / 2}%) :{" "}
+                          {this.props.currency} {this.props.taxAmmount / 2}
+                        </div>
+                        <div style={{ textAlign: "right" }}></div>
+                      </React.Fragment>
+                    )}
+                  </div>
+                )}
+                <div style={{ textAlign: "right" }}></div>
+                <div style={{ fontWeight: "bold", textAlign: "right" }}>
+                  Courrier Charges : {this.props.currency}{" "}
+                  {this.props.info.courrierAmount}
+                </div>
+                <div style={{ textAlign: "right" }}></div>
+                <div style={{ marginBottom: "5px", textAlign: "right" }}>
+                  <div style={{ fontWeight: "bold" }}>
+                    TOTAL : {this.props.currency} {this.props.total}
+                  </div>
+                  <div style={{}}></div>
+                </div>
 
-  <div style={{ marginTop: "0px" }}>
-    <div style={{ fontWeight: "bold" }}>TOTAL IN WORDS: {toWords.convert(this.props.total || 0) } Rupees Only</div>
-    
-  </div>
-</div>
+                <div
+                  style={{
+                    marginTop: "10px",
+                    borderTop: "1px solid #ccc",
+                    paddingTop: "5px",
+                  }}
+                >
+                  <div style={{ fontWeight: "bold" }}>
+                    QUANTITY :{" "}
+                    {this.props.items
+                      .map((item) => parseInt(item.quantity))
+                      .reduce((acc, curr) => acc + curr, 0)}
+                  </div>
+                </div>
 
-              <div style={{display:"flex",justifyContent: "flex-end",marginRight:"6%",marginTop:"2%", alignItems:"flex-end"}}>
-               <b style={{fontSize:"15px"}}> For {this.props.info.billFrom}</b>
+                <div style={{ marginTop: "0px" }}>
+                  <div style={{ fontWeight: "bold" }}>
+                    TOTAL IN WORDS: {toWords.convert(this.props.total || 0)}{" "}
+                    Rupees Only
+                  </div>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  marginRight: "6%",
+                  marginTop: "2%",
+                  alignItems: "flex-end",
+                }}
+              >
+                <b style={{ fontSize: "15px" }}>
+                  {" "}
+                  For {this.props.info.billFrom}
+                </b>
               </div>
               {this.props.info.notes && (
                 <div className="bg-light py-3 px-4 rounded">
