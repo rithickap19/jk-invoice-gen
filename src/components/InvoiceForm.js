@@ -35,7 +35,7 @@ class InvoiceForm extends React.Component {
       billFromPhone: "9043974790",
       billFromState: "Tamil Nadu",
       billFromStateCode: 33,
-      pan: "AKCPJ2902N",
+      pan: "EPAPK0222P",
       notes: "",
       total: "0",
       subTotal: "0",
