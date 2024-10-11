@@ -31,7 +31,7 @@ class InvoiceForm extends React.Component {
       billFromEmail: 'jksilks17@gmail.com',
       billFromAddress:
         '1/322 A , Anna Street, Shakthi Nagar, Arni, T.V.Malai Dst-632301',
-      billFromGst: '33EPAK0222P1Z2',
+      billFromGst: '33EPAPK0222P1Z2',
       billFromPhone: '9043974790',
       billFromState: 'Tamil Nadu',
       billFromStateCode: 33,
@@ -53,7 +53,7 @@ class InvoiceForm extends React.Component {
           email: 'jksilks17@gmail.com',
           address:
             '1/322 A, Anna Street, Shakthi Nagar, Arni, T.V.Malai Dst-632301',
-          gst: '33EPAK0222P1Z2',
+          gst: '33EPAPK0222P1Z2',
           phone: '9043974790',
           pan: 'EPAPK0222P',
         },
