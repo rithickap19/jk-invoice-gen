@@ -55,6 +55,7 @@ class InvoiceForm extends React.Component {
             '1/322 A, Anna Street, Shakthi Nagar, Arni, T.V.Malai Dst-632301',
           gst: '33EPAK0222P1Z2',
           phone: '9043974790',
+          pan: 'EPAPK0222P',
         },
         'JK Traders': {
           email: 'jktraders17@gmail.com',
@@ -62,6 +63,7 @@ class InvoiceForm extends React.Component {
             '1/322 A, Anna Street, Shakthi Nagar, Arni, T.V.Malai Dst-632301',
           gst: '33AKCPJ2902N1ZC',
           phone: '9043974790',
+          pan: 'AKCPJ2902N',
         },
       },
     };
@@ -82,7 +84,7 @@ class InvoiceForm extends React.Component {
 
     // Check if the selected business exists in the mapping
     if (this.state.businessDetails[selectedBusiness]) {
-      const { email, address, gst, phone } =
+      const { email, address, gst, phone, pan } =
         this.state.businessDetails[selectedBusiness];
 
       // Update the state with the corresponding details
@@ -92,6 +94,7 @@ class InvoiceForm extends React.Component {
         billFromAddress: address,
         billFromGst: gst,
         billFromPhone: phone,
+        pan: pan,
       });
     } else {
       // If the business is not found, just update the `billFrom` field
@@ -101,6 +104,7 @@ class InvoiceForm extends React.Component {
         billFromAddress: '',
         billFromGst: '',
         billFromPhone: '',
+        pan: '',
       });
     }
   };
