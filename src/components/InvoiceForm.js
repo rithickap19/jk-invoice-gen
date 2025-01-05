@@ -9,7 +9,118 @@ import InvoiceItem from './InvoiceItem';
 import InvoiceModal from './InvoiceModal';
 import InputGroup from 'react-bootstrap/InputGroup';
 // import DatePicker from "react-datepicker";
+const preFilled = [
+  {
+    "name": "LAKSHMIPATHI SILK HOUSE",
+    "gst_no": "33ACEPL8749BIZP",
+    "address": "54/36 PERIYA SAYAKARA ST KOSAPALAYAM, T V MALI ARNI 632301",
+    "phone_no": "8344444445",
+    "pan_no": "",
+    "state":"Tamil Nadu",
+    "stateCode":33
+  },
+  {
+    "name": "SRI MAHALAKSHMI SILKS",
+    "gst_no": "33AZSPD0266KIZU",
+    "address": "54/36 PERIYA SAYAKARA ST KOSAPALAYAM, TV MALI ARNI",
+    "phone_no": "9976044345",
+    "pan_no": "",
+    "state":"Tamil Nadu",
+    "stateCode":33
+  },
+  {
+    "name": "SRI KOKILA SILKS SAREES",
+    "gst_no": "33BLOPS9750DIZP",
+    "address": "3/7 MEETU STREET SAIDAI PETAI, T V MALI ARNI 632301",
+    "phone_no": "9976352818",
+    "pan_no": "",
+    "state":"Tamil Nadu",
+    "stateCode":33
+  },
+  {
+    "name": "JK SILKS SAREES",
+    "gst_no": "33EPAPK0222P1Z2",
+    "address": "1/337 A ANNA STREET SHAKTHI NAGAR, T V MALI ARNI 632301",
+    "phone_no": "9025186162",
+    "pan_no": "EPAPK0222P",
+    "state":"Tamil Nadu",
+    "stateCode":33
+  },
+  {
+    "name": "SRI BALAJI SILKS",
+    "gst_no": "33AGYPR6957P1Z0",
+    "address": "22/BANGARU AMMAN STREET LITTLE KANCHIPURAM, 631501",
+    "phone_no": "9444087778",
+    "pan_no": "",
+    "state":"Tamil Nadu",
+    "stateCode":33
+  },
+  {
+    "name": "SRI SELVARANGAM SILKS",
+    "gst_no": "33AABFS0580L1Z8",
+    "address": "PALANI ANDAVAR KOVIL ST KOSAPALAYAM, T V MALI ARNI 632301",
+    "phone_no": "9444942415",
+    "pan_no": "",
+    "state":"Tamil Nadu",
+    "stateCode":33
+  },
+  {
+    "name": "SUNDARAM FARBICS",
+    "gst_no": "33AMYPB3843J1ZS",
+    "address": "64 PALANI ANDAVAR KOVIL ST KOSAPALAYAM, T V MALI ARNI 632301",
+    "phone_no": "",
+    "pan_no": "",
+    "state":"Tamil Nadu",
+    "stateCode":33
+  },
+  {
+    "name": "SHANTHI SILKS",
+    "gst_no": "33ADQFS8327R1Z2",
+    "address": "1/57 ELANGO ST MEL SEESA MANGALAM 604504",
+    "phone_no": "9787123408",
+    "pan_no": "",
+    "state":"Tamil Nadu",
+    "stateCode":33
+  },
+  {
+    "name": "SRI MATHAN KUMAR SILK HOUSE",
+    "gst_no": "33ARTPK9703G1Z1",
+    "address": "1/57 ELANGO ST MEL SEESA MANGALAM 604504",
+    "phone_no": "9787123408",
+    "pan_no": "",
+    "state":"Tamil Nadu",
+    "stateCode":33
+  },
+  {
+    "name": "D RADHA SILKS",
+    "gst_no": "33BRVPP2718R1ZU",
+    "address": "50/ SUNDHARAM ST KOSAPALAYAM",
+    "phone_no": "9043716264",
+    "pan_no": "",
+    "state":"Tamil Nadu",
+    "stateCode":33
+  }
+]
 
+const preFilledJk= [
+  {
+  "name":'JK Silk Sarees',
+    "email": 'jksilks17@gmail.com',
+    address:
+      '1/322 A, Anna Street, Shakthi Nagar, Arni, T.V.Malai Dst-632301',
+    gst: '33EPAPK0222P1Z2',
+    phone: '9043974790',
+    pan: 'EPAPK0222P',
+  },
+   {"name":"JK Traders",
+    email: 'jktraders17@gmail.com',
+    address:
+      '1/322 A, Anna Street, Shakthi Nagar, Arni, T.V.Malai Dst-632301',
+    gst: '33AKCPJ2902N1ZC',
+    phone: '9043974790',
+    pan: 'AKCPJ2902N',
+  },
+]
 class InvoiceForm extends React.Component {
   constructor(props) {
     super(props);
@@ -27,15 +138,15 @@ class InvoiceForm extends React.Component {
       billToPhone: '',
       billToState: '',
       billToStateCode: '',
-      billFrom: 'JK Silk Sarees',
-      billFromEmail: 'jksilks17@gmail.com',
-      billFromAddress:
-        '1/322 A , Anna Street, Shakthi Nagar, Arni, T.V.Malai Dst-632301',
-      billFromGst: '33EPAPK0222P1Z2',
-      billFromPhone: '9043974790',
+      billFrom: '',
+      billFromEmail: '',
+      billFromAddress:"",
+        
+      billFromGst: '',
+      billFromPhone: '',
       billFromState: 'Tamil Nadu',
       billFromStateCode: 33,
-      pan: 'EPAPK0222P',
+      pan: '',
       notes: '',
       total: '0',
       subTotal: '0',
@@ -81,6 +192,19 @@ class InvoiceForm extends React.Component {
 
   handleBillFromChange = (event) => {
     const selectedBusiness = event.target.value;
+    const business = preFilled.find((business) => business.name === selectedBusiness);
+    console.log(selectedBusiness,"SB")
+    if (business) {
+      this.setState({
+        billTo: business.name,
+        billToEmail: business.email || '',
+        billToAddress: business.address || '',
+        billToGst: business.gst_no || '',
+        billToPhone: business.phone_no || '',
+        billToState: business.state || '',  // assuming 'state' exists or map it accordingly
+        billToStateCode: business.stateCode || '',  // assuming 'stateCode' exists or map it accordingly
+      });
+    }
 
     // Check if the selected business exists in the mapping
     if (this.state.businessDetails[selectedBusiness]) {
@@ -211,11 +335,41 @@ class InvoiceForm extends React.Component {
     this.handleCalculateTotal();
   }
   editField = (event) => {
+    const { name, value } = event.target;
+  
+    // Update the state for the billTo name
     this.setState({
-      [event.target.name]: event.target.value,
-    });
+          [event.target.name]: event.target.value,
+        });
+  console.log(event.target.name,"ETN")
+    // Check if the field being edited is the 'billTo' field (name)
+    if (event.target.name === 'billTo') {
+      // Find the business from the preFilled list
+      const business = preFilled.find((business) => business.name === value);
+  
+      if (business) {
+        // If the business is found, update other fields based on the selected business
+        this.setState({
+          billToEmail: business.email || '',
+          billToAddress: business.address || '',
+          billToGst: business.gst_no || '',
+          billToPhone: business.phone_no || '',
+          billToState:business.state|| '',
+          billToStateCode:business.stateCode||''
+        });
+      }
+    }
+  
+    // You may have other logic (like calculate total) to run here
     this.handleCalculateTotal();
   };
+  
+  // editField = (event) => {
+  //   this.setState({
+  //     [event.target.name]: event.target.value,
+  //   });
+  //   this.handleCalculateTotal();
+  // };
   onCurrencyChange = (selectedOption) => {
     this.setState(selectedOption);
   };
@@ -306,7 +460,15 @@ class InvoiceForm extends React.Component {
                     className="my-2"
                     onChange={(event) => this.editField(event)}
                     autoComplete="name"
+                    list="businessList"
                   />
+                  <datalist id="businessList">
+            {preFilled.map((business) => (
+              <option key={business.name} value={business.name}>
+                {business.name}
+              </option>
+            ))}
+          </datalist>
                   <Form.Control
                     placeholder={'Email address'}
                     value={this.state.billToEmail}
@@ -314,6 +476,7 @@ class InvoiceForm extends React.Component {
                     name="billToEmail"
                     className="my-2"
                     onChange={(event) => this.editField(event)}
+                    // onChange={(e) => this.setState({ billToEmail: e.target.value })}
                     autoComplete="email"
                   />
                   <Form.Control
@@ -323,6 +486,7 @@ class InvoiceForm extends React.Component {
                     name="billToGst"
                     className="my-2"
                     onChange={(event) => this.editField(event)}
+                    // onChange={(e) => this.setState({ billToEmail: e.target.value })}
                   />
                   <Form.Control
                     placeholder={'Billing address'}
@@ -332,6 +496,7 @@ class InvoiceForm extends React.Component {
                     className="my-2"
                     autoComplete="address"
                     onChange={(event) => this.editField(event)}
+                    // onChange={(e) => this.setState({ billToEmail: e.target.value })}
                   />
                   <Form.Control
                     placeholder={'Phone'}
@@ -340,6 +505,7 @@ class InvoiceForm extends React.Component {
                     name="billToPhone"
                     className="my-2"
                     onChange={(event) => this.editField(event)}
+                    // onChange={(e) => this.setState({ billToEmail: e.target.value })}
                   />
                   <Form.Control
                     placeholder={'State Name'}
@@ -348,6 +514,7 @@ class InvoiceForm extends React.Component {
                     name="billToState"
                     className="my-2"
                     onChange={(event) => this.editField(event)}
+                    // onChange={(e) => this.setState({ billToEmail: e.target.value })}
                   />
                   <Form.Control
                     placeholder={'State Code'}
@@ -356,6 +523,7 @@ class InvoiceForm extends React.Component {
                     name="billToStateCode"
                     className="my-2"
                     onChange={(event) => this.editField(event)}
+                    // onChange={(e) => this.setState({ billToEmail: e.target.value })}
                   />
                 </Col>
                 <Col>
@@ -370,7 +538,15 @@ class InvoiceForm extends React.Component {
                     onChange={this.handleBillFromChange}
                     // onChange={(event) => this.editField(event)}
                     autoComplete="name"
+                    list='businessListJK'
                   />
+                   <datalist id="businessListJK">
+            {preFilledJk.map((business) => (
+              <option key={business.name} value={business.name}>
+                {business.name}
+              </option>
+            ))}
+          </datalist>
                   <Form.Control
                     placeholder={'Email address'}
                     value={this.state.billFromEmail}
