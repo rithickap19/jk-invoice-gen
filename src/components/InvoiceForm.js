@@ -21,7 +21,7 @@ const preFilled = [
   },
   {
     "name": "SRI MAHALAKSHMI SILKS",
-    "gst_no": "33AZSPD0266KIZU",
+    "gst_no": "33AZSPS0266KIZU",
     "address": "54/36 PERIYA SAYAKARA ST KOSAPALAYAM, TV MALI ARNI",
     "phone_no": "9976044345",
     "pan_no": "",
